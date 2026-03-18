@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://www.youtube.com">
     
     <style>
+        /* Fundo preto para o carregamento inicial */
         body, html { 
             background-color: #000 !important; 
             margin: 0; 
@@ -30,6 +31,7 @@
             transform: translate(-50%, -50%);
         }
 
+        /* Overlay com 70% de opacidade e grão (grain) */
         .overlay {
             position: absolute; 
             top: 0; left: 0; width: 100%; height: 100%;
@@ -38,6 +40,7 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E") !important;
         }
 
+        /* Conteúdo principal centralizado */
         #main-content {
             position: relative; 
             z-index: 2; 
@@ -47,33 +50,28 @@
             text-align: center; pointer-events: none;
         }
 
-        h1 {
-            font-size: 5rem; color: #fff; letter-spacing: 5px; 
-            margin: 0 0 20px 0;
-            text-shadow: 0 0 10px #fff, 0 0 20px rgba(255,255,255,0.3);
-        }
-
-        /* Container para manter a altura fixa e centralizar os textos */
+        /* Container dinâmico para os textos estáticos (fixos) no centro */
         .dynamic-text-container {
             position: relative;
-            width: 100%; height: 70px; /* Aumentei a altura para garantir */
+            width: 100%; height: 100px; /* Altura fixa para abrigar os textos */
             display: flex; align-items: center; justify-content: center;
             margin-bottom: 20px;
         }
 
-        /* TÍTULO PRINCIPAL (O antigo ticker, agora estático e centralizado) */
-        #static-ticker {
+        /* Texto de Marca ($REST) centralizado, estático e sem subtítulo */
+        #brand-ticker {
             font-family: 'Courier New', monospace; 
-            font-size: 1.2rem; 
+            font-size: 5rem; /* Tamanho de título principal */
             color: #fff;
-            letter-spacing: 8px; 
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+            letter-spacing: 5px; 
+            text-shadow: 0 0 10px #fff, 0 0 20px rgba(255, 255, 255, 0.3);
             opacity: 1; /* Começa visível */
             transition: opacity 1s ease-in-out;
             position: absolute;
+            margin: 0;
         }
 
-        /* ESTILO DAS FRASES ESTÁTICAS */
+        /* Estilo das frases centralizadas */
         #quote-display {
             font-family: 'Courier New', monospace; 
             font-size: 1.1rem; 
@@ -87,6 +85,7 @@
             position: absolute;
         }
 
+        /* Caixa do Contract Address (CA) */
         .ca-box {
             margin-top: 30px; padding: 12px 20px; background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.3); cursor: pointer;
@@ -99,6 +98,7 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
+        /* Hint do áudio inicial */
         .unmute-hint {
             position: absolute; bottom: 30px; width: 100%; text-align: center;
             color: rgba(255, 255, 255, 0.4); font-size: 12px; z-index: 3; cursor: pointer;
@@ -107,7 +107,7 @@
         }
         .unmute-hint:hover { color: #fff; }
 
-        /* SLIDER DE VOLUME */
+        /* Slider de Volume */
         .vol-container {
             position: absolute; bottom: 30px; right: 30px;
             z-index: 4; display: flex; align-items: center; gap: 10px;
@@ -144,10 +144,8 @@
     <div class="overlay"></div>
 
     <div id="main-content">
-        <h1>$REST</h1>
-        
         <div class="dynamic-text-container">
-            <div id="static-ticker">$REST</div>
+            <h1 id="brand-ticker">$REST</h1>
             <div id="quote-display"></div>
         </div>
         
@@ -178,25 +176,25 @@
             "Please, just let me sleep a little longer."
         ];
 
-        // Lógica de alternância (10s ticker, 10s frase)
+        // Lógica de alternância (10s título, 10s frase)
         let showTicker = true; // Initial state: Ticker is visible
-        const tickerEl = document.getElementById('static-ticker');
+        const tickerEl = document.getElementById('brand-ticker');
         const quoteEl = document.getElementById('quote-display');
 
         setInterval(() => {
             if (showTicker) {
-                // Atualmente mostrando Ticker, muda para Frase
-                tickerEl.style.opacity = 0; // Fade out no Ticker
+                // Atualmente mostrando Título, muda para Frase
+                tickerEl.style.opacity = 0; // Fade out no Título
                 setTimeout(() => {
                     // Sorteia e coloca a nova frase ANTES do fade in
                     quoteEl.innerText = quotes[Math.floor(Math.random() * quotes.length)];
                     quoteEl.style.opacity = 1; // Fade in na Frase
                 }, 1000); // Espera 1s (tempo do fade out)
             } else {
-                // Atualmente mostrando Frase, muda de volta para Ticker
+                // Atualmente mostrando Frase, muda de volta para Título
                 quoteEl.style.opacity = 0; // Fade out na Frase
                 setTimeout(() => { 
-                    tickerEl.style.opacity = 1; // Fade in no Ticker
+                    tickerEl.style.opacity = 1; // Fade in no Título
                 }, 1000); // Espera 1s (tempo do fade out)
             }
             showTicker = !showTicker; // Alterna o estado
