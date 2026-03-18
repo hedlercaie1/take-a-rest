@@ -6,7 +6,6 @@
     <title>$REST - Where life is simpler</title>
     
     <link rel="icon" type="image/png" href="favicon.png">
-    
     <link rel="preconnect" href="https://www.youtube.com">
     
     <style>
@@ -32,15 +31,15 @@
             transform: translate(-50%, -50%);
         }
 
-        /* Overlay 70% preto, LIMPO (SEM FRACTAL NOISE) */
+        /* Overlay 70% preto limpo */
         .overlay {
             position: absolute; 
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1 !important;
-            background-color: rgba(0, 0, 0, 0.4) !important; 
+            background-color: rgba(0, 0, 0, 0.7) !important; 
         }
 
-        /* Conteúdo Principal Centralizado Dinamicamente */
+        /* Conteúdo Principal Centralizado */
         #main-content {
             position: relative; 
             z-index: 2; 
@@ -50,9 +49,9 @@
             text-align: center; pointer-events: none;
         }
 
-        /* TÍTULO PRINCIPAL ($REST) com FONTE SERIFADA CLÁSSICA */
+        /* TÍTULO PRINCIPAL ($REST) com FONTE SERIFADA */
         #brand-ticker {
-            font-family: serif; /* FONTE QUE ESTAVA ANTES */
+            font-family: serif; 
             font-size: 5rem; 
             color: #fff;
             letter-spacing: 5px; 
@@ -63,10 +62,10 @@
             margin: 0;
         }
 
-        /* ESTILO DAS FRASES ESTÁTICAS com FONTE MONOESPAÇADA RETRO */
+        /* ESTILO DAS FRASES ESTÁTICAS com a mesma FONTE SERIFADA */
         #quote-display {
-            font-family: 'Courier New', Courier, monospace; /* FONTE ESTILO TERMINAL */
-            font-size: 1.1rem; 
+            font-family: serif; /* Atualizado para ser igual ao ticker */
+            font-size: 1.2rem; /* Aumentei levemente para melhorar a leitura da serifada */
             color: rgba(255, 255, 255, 0.85);
             text-transform: uppercase; 
             letter-spacing: 5px; 
@@ -79,7 +78,7 @@
 
         /* Caixa do Contract Address (CA) com Fonte Monoespaçada */
         .ca-box {
-            margin-top: 150px; /* Espaço para o H1 e as frases centrais */
+            margin-top: 150px; 
             padding: 12px 20px; 
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.3); 
@@ -118,11 +117,11 @@
         }
         .unmute-hint:hover { color: #fff; }
 
-        /* SLIDER DE VOLUME (Fonte Monoespaçada Retro) */
+        /* SLIDER DE VOLUME */
         .vol-container {
             position: absolute; bottom: 30px; right: 30px;
             z-index: 4; display: flex; align-items: center; gap: 10px;
-            opacity: 0; /* Começa escondido */
+            opacity: 0; 
             transition: opacity 1s ease; pointer-events: auto;
         }
 
@@ -174,7 +173,7 @@
     </div>
 
     <script>
-        // Array com as frases originais de exaustão existencial
+        // Array com as frases
         const quotes = [
             "The world is too loud, and I am too tired.",
             "Searching for a place that doesn't exist.",
@@ -188,29 +187,26 @@
             "Please, just let me sleep a little longer."
         ];
 
-        // Lógica de alternância de textos centralizados a cada 10 segundos
-        let showTicker = true; // Initial state: Ticker is visible
+        // Lógica de alternância (10s título, 10s frase)
+        let showTicker = true; 
         const tickerEl = document.getElementById('brand-ticker');
         const quoteEl = document.getElementById('quote-display');
 
         setInterval(() => {
             if (showTicker) {
-                // Atualmente mostrando Título, muda para Frase com transição suave
-                tickerEl.style.opacity = 0; // Fade out no Título
+                tickerEl.style.opacity = 0; 
                 setTimeout(() => {
-                    // Sorteia e coloca a nova frase ANTES do fade in
                     quoteEl.innerText = quotes[Math.floor(Math.random() * quotes.length)];
-                    quoteEl.style.opacity = 1; // Fade in na Frase
-                }, 1000); // Espera 1s (tempo do fade out)
+                    quoteEl.style.opacity = 1; 
+                }, 1000); 
             } else {
-                // Atualmente mostrando Frase, muda de volta para Título com transição suave
-                quoteEl.style.opacity = 0; // Fade out na Frase
+                quoteEl.style.opacity = 0; 
                 setTimeout(() => { 
-                    tickerEl.style.opacity = 1; // Fade in no Título
-                }, 1000); // Espera 1s (tempo do fade out)
+                    tickerEl.style.opacity = 1; 
+                }, 1000); 
             }
-            showTicker = !showTicker; // Alterna o estado
-        }, 10000); // 10000ms = 10 segundos por estado
+            showTicker = !showTicker; 
+        }, 10000); 
 
         // API YouTube
         var tag = document.createElement('script');
@@ -234,14 +230,12 @@
             });
         }
 
-        // Lógica de Ativação (Unmute + Mostrar Volume no primeiro clique)
+        // Lógica de Ativação (Unmute + Mostrar Volume)
         document.body.addEventListener('click', function(e) {
-            // Ignora o clique se for no slider de volume ou na caixa do CA
             if (!e.target.closest('.ca-box') && !e.target.closest('#volSlider') && player && player.isMuted()) {
                 player.unMute();
                 player.setVolume(100);
                 
-                // Esconde a frase inicial e mostra o slider de volume
                 document.getElementById('unmuteBtn').style.opacity = 0;
                 setTimeout(() => { document.getElementById('unmuteBtn').style.display = 'none'; }, 300);
                 
@@ -249,14 +243,14 @@
             }
         });
 
-        // Evento para arrastar o slider de volume e ajustar o YouTube
+        // Evento para arrastar o slider de volume
         document.getElementById('volSlider').addEventListener('input', function(e) {
             if (player) {
                 player.setVolume(e.target.value);
             }
         });
 
-        // Copiar o Contract Address ao clicar
+        // Copiar CA
         function copyCA() {
             const caElement = document.getElementById('caText');
             const caString = caElement.innerText;
